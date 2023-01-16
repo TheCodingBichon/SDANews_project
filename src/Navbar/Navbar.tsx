@@ -12,19 +12,36 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
 interface NavbarProps {
-  avatarClicked: boolean;
-  setAvatarClicked: (value: (val: boolean) => boolean) => void;
+  setAvatarClicked: (val: boolean | ((val: boolean) => boolean)) => void; // chce podac albo boolean, albo funkcję która z kolei będzie przyjmować boolean i zwracać boolean
 }
 
 const pages = ["Home", "Search"];
 
-const Navbar = ({ avatarClicked, setAvatarClicked }: NavbarProps) => {
+const Navbar = ({ setAvatarClicked }: NavbarProps) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
-
   const toggleAvatarClicked = () => {
-    setAvatarClicked((previousState) => !previousState);
+    // if (avatarClicked) setAvatarClicked(false);
+    // if (!avatarClicked) setAvatarClicked(true);
+
+    // if (avatarClicked === false) {
+    //   setAvatarClicked(true);
+    // } else {
+    //   setAvatarClicked(false);
+    // }
+
+    // arr.map((el, i, arr) => {})
+    // arr.forEach(el => {})
+    const updateAvatarStateUsingPreviousState = (
+      previousAvatarState: boolean
+    ) => {
+      return !previousAvatarState;
+    };
+    // setCount(previousCount => previousCount + 1)
+    // setCount(count + 1)
+
+    setAvatarClicked(updateAvatarStateUsingPreviousState);
   };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

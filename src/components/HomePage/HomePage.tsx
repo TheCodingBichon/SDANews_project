@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_KEY } from "../../helpers/api";
 import { Typography, List, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import Article from "../Article/Article";
 const HomePage = () => {
   const [todaysArticles, setTodaysArticles] = useState([]);
 
@@ -42,24 +43,27 @@ const HomePage = () => {
         }-${day - 1}&apiKey=${API_KEY}`
       )
       .then((data) => {
+        console.log(data);
         console.log(data.data.articles);
         setTodaysArticles(data.data.articles);
       });
-  }, [todaysArticles]);
+  }, []);
   // FETCH + USEEFFECT TO NIE JEST NAJLEPSZY SPOSÓB NA KOMUNIKACJE Z API W REACTCIE, ALTERNATYEWA: REACT QUERY, TEN SPOSÓB JEST MIMO WSZYSTKO OK
   const typographyStyles = { fontSize: "2rem", mt: ".8rem" };
+  // const elementsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  // 1. Na liście (stanie) todaysArticles odpal metode map, wyświetlaj w niej komponenty Article, jako props article podawaj aktualny element po którym iterujesz (1szy parametr mapa), jako klucz (key) podaj index aktualnego elementu (drugi parametr mapa)
 
   return (
     <>
       <Typography variant="h2" align="center" sx={typographyStyles}>
         Today's hottest news:
       </Typography>
-      <List sx={{ width: "100%", alignContent: "center" }}></List>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <Button variant="contained" sx={{ display: "block", mx: "auto" }}>
-          Pusty URL
-        </Button>
-      </Link>
+      <List sx={{ width: "100%", alignContent: "center" }}>
+        {todaysArticles.map((el, i) => {
+          return <Article article={el} key={i} />;
+        })}
+      </List>
     </>
   );
 };

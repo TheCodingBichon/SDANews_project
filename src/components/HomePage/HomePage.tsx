@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_KEY } from "../../helpers/api";
-import { Typography, List } from "@mui/material";
+import { Typography, List, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 const HomePage = () => {
   const [todaysArticles, setTodaysArticles] = useState([]);
 
@@ -19,11 +20,19 @@ const HomePage = () => {
   // - pusta lista dependencji = strzał tylko przy zamontowaniu
 
   // yyyy-mm-dd
-
   const today = new Date();
   const day = today.getDate();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
+
+  // fetch
+  // 1. sam fetch
+  // 2. then z jsonem w srodku, tu masz zapakowane dane i obiekt res, tu wywolujesz .json()
+  // 3. kolejny then w ktorym masz faktyczny dostep do danych
+
+  // axios (get)
+  // 1. request zrobiony axios.get
+  // 2. then w ktorym dostepny jest obiekt ktory jest mieszanka obiektu res i faktycznych danych
 
   useEffect(() => {
     axios
@@ -36,7 +45,7 @@ const HomePage = () => {
         console.log(data.data.articles);
         setTodaysArticles(data.data.articles);
       });
-  }, []);
+  }, [todaysArticles]);
   // FETCH + USEEFFECT TO NIE JEST NAJLEPSZY SPOSÓB NA KOMUNIKACJE Z API W REACTCIE, ALTERNATYEWA: REACT QUERY, TEN SPOSÓB JEST MIMO WSZYSTKO OK
   const typographyStyles = { fontSize: "2rem", mt: ".8rem" };
 
@@ -46,6 +55,11 @@ const HomePage = () => {
         Today's hottest news:
       </Typography>
       <List sx={{ width: "100%", alignContent: "center" }}></List>
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <Button variant="contained" sx={{ display: "block", mx: "auto" }}>
+          Pusty URL
+        </Button>
+      </Link>
     </>
   );
 };

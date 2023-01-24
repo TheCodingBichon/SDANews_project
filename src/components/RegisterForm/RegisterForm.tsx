@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Typography, Button } from "@mui/material";
+import { Typography, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { auth } from "../../helpers/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -44,19 +44,19 @@ const RegisterForm = () => {
         placeholder="email"
         sx={{ display: "block", mx: "auto", my: ".5rem" }}
         {...register("email", { required: true })}
-      ></TextField>
+      />
       <TextField
         type="password"
         placeholder="password"
         sx={{ display: "block", mx: "auto", my: ".5rem" }}
         {...register("password", { required: true })}
-      ></TextField>
+      />
       <TextField
         type="password"
         placeholder="repeat password"
         sx={{ display: "block", mx: "auto", my: ".5rem" }}
         {...register("password2", { required: true })}
-      ></TextField>
+      />
       <Button
         variant="contained"
         type="submit"
@@ -69,3 +69,5 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+

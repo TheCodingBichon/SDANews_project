@@ -1,21 +1,25 @@
+import { Card, Typography, Button } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Button, Card, Typography } from "@mui/material";
-import { getStorage } from "firebase/storage";
-import { auth } from "../../helpers/firebaseConfig";
-
-interface ProfilePhotoFormData {
+import { auth, storage } from "../../helpers/firebaseConfig";
+import { ref, uploadBytes } from "firebase/storage";
+interface ProfilePhotoFormValues {
   profilePhoto: FileList;
 }
 
 const ProfilePhotoForm = () => {
-  const { register, handleSubmit } = useForm<ProfilePhotoFormData>();
+  const { register, handleSubmit } = useForm<ProfilePhotoFormValues>();
 
-  const uploadPhoto = (data: ProfilePhotoFormData) => {
+  const uploadPhoto = (data: ProfilePhotoFormValues) => {
     const photo = data.profilePhoto[0];
-
+    // 2. Stwórz ifa, w którym sprawdzisz czy auth.currentUser istnieje.
     if (auth.currentUser) {
+      // 3. W tym ifie stwórz kod odpowiedzialny za wrzucanie zdjęcia do storage'u. Ścieżka do pliku (ścieżka w refie): '/users/${auth.currentUser.uid}/profile'
+      const storageRef = ref(storage, `/users/${auth.currentUser.uid}/profile`);
+      uploadBytes(storageRef, photo);
     }
+
+    // 4. Cały ProfilePhotoForm wyświetl w UserPage pomiędzy mailem a log outem.
   };
 
   return (
@@ -34,12 +38,12 @@ const ProfilePhotoForm = () => {
             alignContent: "center",
           }}
         >
-          <Typography variant="h6" align="center" sx={{ fonstSize: "1rem" }}>
+          <Typography variant="h6" align="center" sx={{ fontSize: "1rem" }}>
             Select a file
           </Typography>
           <input
-            type="file"
             hidden
+            type="file"
             {...register("profilePhoto", { required: true })}
           />
         </Button>
@@ -48,7 +52,7 @@ const ProfilePhotoForm = () => {
           type="submit"
           sx={{ display: "block", mx: "auto" }}
         >
-          Submit
+          Upload
         </Button>
       </Card>
     </form>

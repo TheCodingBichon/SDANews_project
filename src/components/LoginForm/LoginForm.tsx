@@ -1,9 +1,8 @@
 import React from "react";
-import { TextField, Typography, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { auth } from "../../helpers/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { auth } from "../../helpers/firebaseConfig";
+import { Button, TextField } from "@mui/material";
 interface LoginFormValues {
   email: string;
   password: string;
@@ -15,11 +14,9 @@ const LoginForm = () => {
   const logUserIn = ({ email, password }: LoginFormValues) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        console.log("Success");
+        console.log("sukces");
       })
-      .catch((err) => {
-        console.log(`Failure, ${err.message}`);
-      });
+      .catch((err) => console.error(err.message));
   };
 
   return (
@@ -27,32 +24,30 @@ const LoginForm = () => {
       onSubmit={handleSubmit(logUserIn)}
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <Typography align="center" variant="h2" sx={{ fontSize: "1.5rem" }}>
-        Log into account
-      </Typography>
       <TextField
         variant="outlined"
         type="email"
         placeholder="email"
-        sx={{ display: "block", mx: "auto", my: ".5rem" }}
+        sx={{ display: "block", my: ".5rem", mx: "auto" }}
         {...register("email", { required: true })}
-      ></TextField>
+      />
       <TextField
         variant="outlined"
         type="password"
         placeholder="password"
-        sx={{ display: "block", mx: "auto", my: ".5rem" }}
+        sx={{ display: "block", my: ".5rem", mx: "auto" }}
         {...register("password", { required: true })}
-      ></TextField>
+      />
       <Button
-        variant="contained"
         type="submit"
-        sx={{ display: "block", mx: "auto", mb: "1rem" }}
+        variant="contained"
+        sx={{ display: "block", mb: "1rem", mx: "auto" }}
       >
-        Login
+        Log in
       </Button>
     </form>
   );
 };
 
 export default LoginForm;
+

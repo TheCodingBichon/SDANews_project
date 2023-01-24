@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-
-// TODO: Add SDKs for Firebase products that you want to use
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDW7mvzIlkgqtcDBTHSZVDEscE-e2XBMqA",
@@ -14,4 +13,4 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const storage = getStorage();
+export const storage = getStorage(app);
